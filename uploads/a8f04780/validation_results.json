@@ -1,0 +1,38 @@
+{
+  "upload_id": "a8f04780",
+  "filename": "faulty_package.zip",
+  "results": {
+    "errors": [
+      "\u274c No ROS package.xml found",
+      "\u274c Python syntax error in faulty_package\\src\\unsafe_node.py:   File \"C:\\Users\\DELL\\AppData\\Local\\Temp\\tmpuaae_hky\\faulty_package\\src\\unsafe_node.py\", line 2"
+    ],
+    "warnings": [
+      "\u26a0\ufe0f No build configuration (CMakeLists.txt or setup.py) found",
+      "\u26a0\ufe0f Potential unsafe value (10.0) in faulty_package\\src\\unsafe_node.py",
+      "\u26a0\ufe0f Use rospy.sleep() instead of time.sleep() in faulty_package\\src\\unsafe_node.py"
+    ],
+    "info": [
+      "Extracted 3 files",
+      "\u2705 Found package.xml at correct_package\\package.xml",
+      "  Package name: correct_package",
+      "\u2705 Found 1 CMakeLists.txt file(s)",
+      "Extracted 1 files",
+      "\u2705 ROS1 node initialization found in faulty_package\\src\\unsafe_node.py",
+      "  Node name: unsafe_node"
+    ],
+    "statistics": {
+      "files_checked": 2,
+      "python_files": 1,
+      "cpp_files": 0,
+      "ros_elements": {
+        "init_node": true,
+        "publishers": 0,
+        "subscribers": 0,
+        "services": 0
+      }
+    }
+  },
+  "text_report": "\ud83d\udccb ROS CODE CHECKER REPORT\n============================================================\n\nSUMMARY:\n  Files checked: 2\n  Python files: 1\n  C++ files: 0\n  Errors: 2\n  Warnings: 3\n  Info messages: 7\n\n\u274c ERRORS:\n  1. \u274c No ROS package.xml found\n  2. \u274c Python syntax error in faulty_package\\src\\unsafe_node.py:   File \"C:\\Users\\DELL\\AppData\\Local\\Temp\\tmpuaae_hky\\faulty_package\\src\\unsafe_node.py\", line 2\n\n\u26a0\ufe0f WARNINGS:\n  1. \u26a0\ufe0f No build configuration (CMakeLists.txt or setup.py) found\n  2. \u26a0\ufe0f Potential unsafe value (10.0) in faulty_package\\src\\unsafe_node.py\n  3. \u26a0\ufe0f Use rospy.sleep() instead of time.sleep() in faulty_package\\src\\unsafe_node.py\n\n\u2139\ufe0f INFO & RECOMMENDATIONS:\n  1. Extracted 3 files\n  2. \u2705 Found package.xml at correct_package\\package.xml\n  3.   Package name: correct_package\n  4. \u2705 Found 1 CMakeLists.txt file(s)\n  5. Extracted 1 files\n  6. \u2705 ROS1 node initialization found in faulty_package\\src\\unsafe_node.py\n  7.   Node name: unsafe_node\n\n\ud83e\udd16 ROS ELEMENTS DETECTED:\n  \u2022 Node initialization: YES\n\n\u274c VALIDATION FAILED\n   Found 2 critical error(s). Fix before simulation.\n\n============================================================\n",
+  "validation_passed": false,
+  "timestamp": 1765548778.8582828
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>correct_package</name>
+  <version>0.0.0</version>
+  <description>Correct ROS package for pick-and-place task</description>
+
+  <maintainer email="ros@intern.com">ROS Intern</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>trajectory_msgs</depend>
+
+  <export>
+    <build_type>catkin</build_type>
+  </export>
+</package>

@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 ROS Code Checker & Simulation Tool</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        /* Content area */
+        .content {
+            padding: 30px;
+            display: grid;
+            gap: 25px;
+        }
+        
+        /* Cards */
+        .card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+        }
+        
+        .card h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+        }
+        
+        /* Upload area */
+        .upload-area {
+            border: 3px dashed #adb5bd;
+            border-radius: 12px;
+            padding: 50px 30px;
+            text-align: center;
+            background: #f8f9fa;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-area:hover {
+            border-color: #4a6491;
+            background: #e9ecef;
+        }
+        
+        .upload-icon {
+            font-size: 4rem;
+            color: #4a6491;
+            margin-bottom: 20px;
+        }
+        
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, #4a6491, #2c3e50);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(74, 100, 145, 0.3);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #28a745, #1e7e34);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #ffc107, #e0a800);
+        }
+        
+        /* Status indicators */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            background: #e9ecef;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        
+        .status-ready { color: #28a745; }
+        .status-error { color: #dc3545; }
+        .status-warning { color: #ffc107; }
+        .status-running { color: #007bff; }
+        
+        /* Results sections */
+        .results-section {
+            display: none;
+        }
+        
+        .results-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        /* Report container */
+        .report-container {
+            background: #212529;
+            color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin: 15px 0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        /* Stats grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-box {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .errors .stat-value { color: #dc3545; }
+        .warnings .stat-value { color: #ffc107; }
+        .info .stat-value { color: #17a2b8; }
+        .success .stat-value { color: #28a745; }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #dee2e6;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: #6c757d;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            color: #4a6491;
+            border-bottom-color: #4a6491;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Simulation results */
+        .simulation-results {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .joint-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .joint-table th, .joint-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .joint-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .joint-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .screenshot-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+        
+        .screenshot-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .screenshot-icon {
+            font-size: 2.5rem;
+            color: #4a6491;
+            margin-bottom: 10px;
+        }
+        
+        /* Loading spinner */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .loading.active {
+            display: block;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4a6491;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        /* Alerts */
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid transparent;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-left-color: #28a745;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left-color: #dc3545;
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border-left-color: #ffc107;
+        }
+        
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left-color: #17a2b8;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: #6c757d;
+            border-top: 1px solid #dee2e6;
+            margin-top: 30px;
+            font-size: 0.9rem;
+        }
+        
+        /* Animations */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .content { padding: 20px; }
+            .header { padding: 30px 20px; }
+            .header h1 { font-size: 1.8rem; flex-direction: column; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .tabs { flex-direction: column; }
+            .tab { border-bottom: none; border-right: 3px solid transparent; }
+            .tab.active { border-right-color: #4a6491; border-bottom: none; }
+        }
+        
+        @media (max-width: 480px) {
+            body { padding: 10px; }
+            .header h1 { font-size: 1.5rem; }
+            .header p { font-size: 0.95rem; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .btn { width: 100%; justify-content: center; }
+        }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🤖 ROS Code Checker & Simulation Tool</h1>
+            <p>Upload your ROS/ROS2 package, validate code syntax and safety, run in simulation, and preview results in real-time.</p>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Step 1: Upload -->
+            <div class="card">
+                <h2>📤 1. Upload ROS Package</h2>
+                <p>Upload your ROS/ROS2 package as a ZIP file containing package.xml and source code.</p>
+                
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📦</div>
+                    <h3 style="margin-bottom: 10px;">Drag & Drop your package ZIP file here</h3>
+                    <p>or click to browse (Max 50MB)</p>
+                    <p style="margin-top: 20px; color: #6c757d; font-size: 0.9rem;">
+                        Supported: Python (.py) and C++ (.cpp) nodes<br>
+                        Required: package.xml, CMakeLists.txt or setup.py
+                    </p>
+                </div>
+                
+                <input type="file" id="fileInput" accept=".zip" hidden>
+                
+                <div id="uploadStatus"></div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn" id="uploadBtn" onclick="uploadFile()">
+                        📤 Upload & Validate Package
+                    </button>
+                    <button class="btn btn-warning" onclick="loadDemoData()" style="margin-left: 10px;">
+                        🎮 Load Demo Data
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Step 2: Validation Results -->
+            <div class="card results-section" id="validationCard">
+                <h2>✅ 2. Validation Results</h2>
+                <div id="validationStatus" class="alert alert-info">
+                    ⏳ Waiting for package upload...
+                </div>
+                
+                <div class="stats-grid" id="statsGrid">
+                    <div class="stat-box errors">
+                        <div class="stat-value" id="errorCount">0</div>
+                        <div class="stat-label">Errors</div>
+                    </div>
+                    <div class="stat-box warnings">
+                        <div class="stat-value" id="warningCount">0</div>
+                        <div class="stat-label">Warnings</div>
+                    </div>
+                    <div class="stat-box info">
+                        <div class="stat-value" id="infoCount">0</div>
+                        <div class="stat-label">Info</div>
+                    </div>
+                    <div class="stat-box success">
+                        <div class="stat-value" id="fileCount">0</div>
+                        <div class="stat-label">Files</div>
+                    </div>
+                </div>
+                
+                <div class="tabs">
+                    <button class="tab active" onclick="showTab('report')">Text Report</button>
+                    <button class="tab" onclick="showTab('json')">JSON Data</button>
+                    <button class="tab" onclick="showTab('details')">Details</button>
+                </div>
+                
+                <div id="report" class="tab-content active">
+                    <div class="report-container" id="textReport">
+                        <!-- Text report will appear here -->
+                    </div>
+                </div>
+                
+                <div id="json" class="tab-content">
+                    <div class="report-container" id="jsonReport">
+                        <!-- JSON report will appear here -->
+                    </div>
+                </div>
+                
+                <div id="details" class="tab-content">
+                    <div id="detailsContent">
+                        <!-- Detailed analysis will appear here -->
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn btn-success" id="simulateBtn" onclick="runSimulation()" disabled>
+                        🚀 Run Simulation
+                    </button>
+                    <span id="validationMessage" style="margin-left: 15px; color: #6c757d;"></span>
+                </div>
+            </div>
+            
+            <!-- Step 3: Simulation Results -->
+            <div class="card results-section" id="simulationCard">
+                <h2>🎮 3. Simulation Preview</h2>
+                <div id="simulationStatus" class="alert alert-info">
+                    ⏳ Simulation ready to start...
+                </div>
+                
+                <div id="simulationResults">
+                    <!-- Simulation results will appear here -->
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn btn-danger" onclick="cleanupSimulation()">
+                        🗑️ Cleanup Simulation
+                    </button>
+                    <button class="btn" onclick="downloadReport()" style="margin-left: 10px;">
+                        📥 Download Report
+                    </button>
+                </div>
+            </div>
+            
+            <!-- System Status -->
+            <div class="card">
+                <h2>📊 System Status</h2>
+                <div id="systemStatus">
+                    <p><span class="status-indicator status-ready">● Ready</span> Waiting for upload</p>
+                    <p><span class="status-indicator status-ready">● Connected</span> Web interface active</p>
+                    <p><span class="status-indicator status-ready">● Available</span> Code checker ready</p>
+                </div>
+                <div style="margin-top: 15px;">
+                    <p style="color: #6c757d; font-size: 0.9rem;">
+                        💡 Tip: Test with demo data or upload your own ROS package ZIP
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>ROS Code Checker & Simulation Tool | Internship Assessment Project</p>
+            <p>Built with Flask, Python, and Robotics Simulation</p>
+            <p style="margin-top: 10px; font-size: 0.8rem; color: #adb5bd;">
+                Note: This tool runs mock simulation. Install Gazebo/CoppeliaSim for real robot simulation.
+            </p>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script>
+        // Global variables
+        let currentUploadId = null;
+        let currentValidationPassed = false;
+        let currentSimulationId = null;
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            setupDragAndDrop();
+            checkSystemStatus();
+            
+            // Hide results sections initially
+            document.getElementById('validationCard').classList.remove('active');
+            document.getElementById('simulationCard').classList.remove('active');
+            
+            console.log('ROS Code Checker Web Interface loaded');
+        });
+        
+        // Drag and drop setup
+        function setupDragAndDrop() {
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileInput');
+            
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#28a745';
+                uploadArea.style.background = '#e9ecef';
+            });
+            
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.style.borderColor = '#adb5bd';
+                uploadArea.style.background = '#f8f9fa';
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#adb5bd';
+                uploadArea.style.background = '#f8f9fa';
+                
+                if (e.dataTransfer.files.length) {
+                    fileInput.files = e.dataTransfer.files;
+                    showFileName(e.dataTransfer.files[0].name);
+                    uploadFile();
+                }
+            });
+            
+            uploadArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length) {
+                    showFileName(fileInput.files[0].name);
+                }
+            });
+        }
+        
+        // Show selected file name
+        function showFileName(filename) {
+            const uploadArea = document.getElementById('uploadArea');
+            uploadArea.innerHTML = `
+                <div style="color: #28a745; font-size: 3rem;">✓</div>
+                <h3 style="margin-bottom: 10px;">Selected: ${filename}</h3>
+                <p>Click "Upload & Validate" to proceed</p>
+            `;
+        }
+        
+        // Check system status
+        async function checkSystemStatus() {
+            try {
+                const response = await fetch('/api/health');
+                if (response.ok) {
+                    console.log('✅ System connected');
+                    document.getElementById('systemStatus').innerHTML = `
+                        <p><span class="status-indicator status-ready">● Ready</span> System connected and ready</p>
+                        <p><span class="status-indicator status-ready">● Online</span> API endpoints available</p>
+                        <p><span class="status-indicator status-ready">● Active</span> Code checker running</p>
+                    `;
+                }
+            } catch (error) {
+                console.log('⚠️ System check failed');
+            }
+        }
+        
+        // Upload file function
+        async function uploadFile() {
+            const fileInput = document.getElementById('fileInput');
+            const uploadBtn = document.getElementById('uploadBtn');
+            const uploadStatus = document.getElementById('uploadStatus');
+            
+            if (!fileInput.files || !fileInput.files[0]) {
+                fileInput.click();
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            
+            // Update UI
+            uploadBtn.disabled = true;
+            uploadBtn.innerHTML = '⏳ Validating...';
+            uploadStatus.innerHTML = `
+                <div class="alert alert-info">
+                    ⏳ Uploading and validating "${file.name}"...
+                    <div class="spinner" style="display: inline-block; width: 20px; height: 20px; margin-left: 10px;"></div>
+                </div>
+            `;
+            
+            // Show validation card
+            document.getElementById('validationCard').classList.add('active');
+            document.getElementById('simulationCard').classList.remove('active');
+            
+            // Scroll to validation results
+            document.getElementById('validationCard').scrollIntoView({ behavior: 'smooth' });
+            
+            // Create FormData
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            try {
+                // Send to server
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Store upload ID
+                    currentUploadId = result.upload_id;
+                    currentValidationPassed = result.validation_passed;
+                    
+                    // Update statistics
+                    document.getElementById('errorCount').textContent = result.error_count;
+                    document.getElementById('warningCount').textContent = result.warning_count;
+                    document.getElementById('infoCount').textContent = result.info_count;
+                    document.getElementById('fileCount').textContent = result.json_report?.statistics?.files_checked || 0;
+                    
+                    // Show reports
+                    document.getElementById('textReport').textContent = result.text_report || "No report available";
+                    document.getElementById('jsonReport').textContent = JSON.stringify(result.json_report || {}, null, 2);
+                    
+                    // Create details content
+                    let detailsHtml = '<h3>Validation Details</h3>';
+                    
+                    if (result.json_report?.errors && result.json_report.errors.length > 0) {
+                        detailsHtml += '<div style="margin-bottom: 20px;">';
+                        detailsHtml += '<h4 style="color: #dc3545;">Errors:</h4><ul>';
+                        result.json_report.errors.slice(0, 5).forEach(err => {
+                            detailsHtml += `<li style="margin-bottom: 8px;">${err}</li>`;
+                        });
+                        if (result.json_report.errors.length > 5) {
+                            detailsHtml += `<li>... and ${result.json_report.errors.length - 5} more errors</li>`;
+                        }
+                        detailsHtml += '</ul></div>';
+                    }
+                    
+                    if (result.json_report?.warnings && result.json_report.warnings.length > 0) {
+                        detailsHtml += '<div style="margin-bottom: 20px;">';
+                        detailsHtml += '<h4 style="color: #ffc107;">Warnings:</h4><ul>';
+                        result.json_report.warnings.slice(0, 5).forEach(warn => {
+                            detailsHtml += `<li style="margin-bottom: 8px;">${warn}</li>`;
+                        });
+                        if (result.json_report.warnings.length > 5) {
+                            detailsHtml += `<li>... and ${result.json_report.warnings.length - 5} more warnings</li>`;
+                        }
+                        detailsHtml += '</ul></div>';
+                    }
+                    
+                    document.getElementById('detailsContent').innerHTML = detailsHtml;
+                    
+                    // Update validation status
+                    const validationStatus = document.getElementById('validationStatus');
+                    const validationMessage = document.getElementById('validationMessage');
+                    const simulateBtn = document.getElementById('simulateBtn');
+                    
+                    if (result.validation_passed) {
+                        validationStatus.className = 'alert alert-success';
+                        validationStatus.innerHTML = '✅ Package validation passed! Ready for simulation.';
+                        simulateBtn.disabled = false;
+                        validationMessage.innerHTML = '<span style="color:#28a745;">✓ Ready to simulate</span>';
+                    } else {
+                        validationStatus.className = 'alert alert-error';
+                        validationStatus.innerHTML = `❌ Validation failed with ${result.error_count} error(s). Fix errors before simulation.`;
+                        simulateBtn.disabled = true;
+                        validationMessage.innerHTML = '<span style="color:#dc3545;">✗ Fix errors first</span>';
+                    }
+                    
+                    uploadStatus.innerHTML = `
+                        <div class="alert alert-success">
+                            ✅ Upload successful! Package validated.
+                        </div>
+                    `;
+                    
+                } else {
+                    uploadStatus.innerHTML = `
+                        <div class="alert alert-error">
+                            ❌ Upload failed: ${result.error || 'Unknown error'}
+                        </div>
+                    `;
+                    document.getElementById('validationCard').classList.remove('active');
+                }
+                
+            } catch (error) {
+                uploadStatus.innerHTML = `
+                    <div class="alert alert-error">
+                        ❌ Upload error: ${error.message}
+                    </div>
+                `;
+                document.getElementById('validationCard').classList.remove('active');
+            } finally {
+                uploadBtn.disabled = false;
+                uploadBtn.innerHTML = '📤 Upload & Validate Package';
+            }
+        }
+        
+        // Run simulation
+        async function runSimulation() {
+            if (!currentUploadId || !currentValidationPassed) {
+                alert('Please upload and validate a package first');
+                return;
+            }
+            
+            const simulateBtn = document.getElementById('simulateBtn');
+            const simulationStatus = document.getElementById('simulationStatus');
+            const simulationResults = document.getElementById('simulationResults');
+            
+            // Update UI
+            simulateBtn.disabled = true;
+            simulateBtn.innerHTML = '⏳ Running Simulation...';
+            simulationStatus.className = 'alert alert-warning';
+            simulationStatus.innerHTML = '🚀 Launching simulation... This may take a moment.';
+            
+            // Show simulation card
+            document.getElementById('simulationCard').classList.add('active');
+            
+            // Scroll to simulation results
+            document.getElementById('simulationCard').scrollIntoView({ behavior: 'smooth' });
+            
+            // Clear previous results
+            simulationResults.innerHTML = '<div class="loading active"><div class="spinner"></div><p>Starting simulation...</p></div>';
+            
+            try {
+                // Send simulation request
+                const response = await fetch('/api/simulate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        upload_id: currentUploadId,
+                        simulator: 'mock'  // Use mock simulation
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    currentSimulationId = result.simulation_id;
+                    
+                    // Update status
+                    simulationStatus.className = 'alert alert-success';
+                    simulationStatus.innerHTML = '✅ Simulation completed successfully!';
+                    
+                    // Display results
+                    const report = result.report;
+                    
+                    let resultsHtml = `
+                        <div class="stats-grid">
+                            <div class="stat-box success">
+                                <div class="stat-value">${report.success ? '✓' : '✗'}</div>
+                                <div class="stat-label">Success</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">${report.summary?.duration || '12s'}</div>
+                                <div class="stat-label">Duration</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">${report.joint_positions?.length || 0}</div>
+                                <div class="stat-label">Joint Moves</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">${report.screenshots?.length || 0}</div>
+                                <div class="stat-label">Frames</div>
+                            </div>
+                        </div>
+                        
+                        <h3>📈 Joint Positions Over Time</h3>
+                        <table class="joint-table">
+                            <thead>
+                                <tr>
+                                    <th>Time (s)</th>
+                                    <th>Action</th>
+                                    <th>Joint Positions (rad)</th>
+                                </tr>
+                            </thead>
+                            <tbody>`;
+                    
+                    if (report.joint_positions && report.joint_positions.length > 0) {
+                        report.joint_positions.forEach(joint => {
+                            resultsHtml += `
+                                <tr>
+                                    <td>${joint.time}</td>
+                                    <td>${joint.action}</td>
+                                    <td>${joint.joints.map(j => j.toFixed(2)).join(', ')}</td>
+                                </tr>`;
+                        });
+                    } else {
+                        resultsHtml += `
+                            <tr>
+                                <td colspan="3" style="text-align: center; color: #6c757d;">
+                                    No joint data available
+                                </td>
+                            </tr>`;
+                    }
+                    
+                    resultsHtml += `</tbody></table>`;
+                    
+                    // Add logs
+                    if (report.logs && report.logs.length > 0) {
+                        resultsHtml += `<h3>📋 Simulation Logs</h3><div class="report-container" style="max-height: 200px;">`;
+                        report.logs.forEach(log => {
+                            resultsHtml += `${log}\n`;
+                        });
+                        resultsHtml += `</div>`;
+                    }
+                    
+                    // Add screenshots
+                    if (report.screenshots && report.screenshots.length > 0) {
+                        resultsHtml += `<h3>🖼️ Captured Frames</h3><div class="screenshot-grid">`;
+                        report.screenshots.forEach((shot, index) => {
+                            resultsHtml += `
+                                <div class="screenshot-card">
+                                    <div class="screenshot-icon">📸</div>
+                                    <p><strong>${shot.description}</strong></p>
+                                    <p style="font-size:0.8rem;color:#6c757d;">Time: ${shot.time}s</p>
+                                    <p style="font-size:0.8rem;color:#6c757d;">${shot.file}</p>
+                                </div>`;
+                        });
+                        resultsHtml += `</div>`;
+                    }
+                    
+                    simulationResults.innerHTML = resultsHtml;
+                    
+                    simulateBtn.innerHTML = '✅ Simulation Complete';
+                    simulateBtn.disabled = true;
+                    
+                } else {
+                    simulationStatus.className = 'alert alert-error';
+                    simulationStatus.innerHTML = `❌ Simulation failed: ${result.error || 'Unknown error'}`;
+                    simulateBtn.disabled = false;
+                    simulateBtn.innerHTML = '🚀 Run Simulation';
+                    simulationResults.innerHTML = '<p>Simulation failed. Check the error message above.</p>';
+                }
+                
+            } catch (error) {
+                simulationStatus.className = 'alert alert-error';
+                simulationStatus.innerHTML = `❌ Simulation error: ${error.message}`;
+                simulateBtn.disabled = false;
+                simulateBtn.innerHTML = '🚀 Run Simulation';
+                simulationResults.innerHTML = '<p>Network error occurred. Please try again.</p>';
+            }
+        }
+        
+        // Cleanup simulation
+        async function cleanupSimulation() {
+            if (!currentSimulationId) {
+                alert('No simulation running');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/cleanup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        simulation_id: currentSimulationId
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    document.getElementById('simulationStatus').innerHTML = `
+                        <div class="alert alert-success">
+                            ✅ Simulation cleaned up successfully
+                        </div>
+                    `;
+                    currentSimulationId = null;
+                }
+                
+            } catch (error) {
+                console.error('Cleanup error:', error);
+            }
+        }
+        
+        // Load demo data
+        async function loadDemoData() {
+            const uploadStatus = document.getElementById('uploadStatus');
+            uploadStatus.innerHTML = `
+                <div class="alert alert-info">
+                    🎮 Loading demo data...
+                </div>
+            `;
+            
+            // Show validation card with demo data
+            document.getElementById('validationCard').classList.add('active');
+            document.getElementById('simulationCard').classList.remove('active');
+            
+            // Update statistics with demo values
+            document.getElementById('errorCount').textContent = '0';
+            document.getElementById('warningCount').textContent = '2';
+            document.getElementById('infoCount').textContent = '8';
+            document.getElementById('fileCount').textContent = '5';
+            
+            // Show demo report
+            const demoReport = `📋 ROS CODE CHECKER REPORT (DEMO)
+============================================================
+
+SUMMARY:
+  Files checked: 5
+  Python files: 3
+  C++ files: 2
+  Errors: 0
+  Warnings: 2
+  Info messages: 8
+
+⚠️ WARNINGS:
+  1. Consider using rospy.log*() instead of print() in pick_place_node.py
+  2. Style issue in control_node.py: line 45, column 80
+
+ℹ️ INFO & RECOMMENDATIONS:
+  1. ✅ Found package.xml at correct_package/package.xml
+  2. Package name: correct_package
+  3. ✅ Found 1 CMakeLists.txt file(s)
+  4. ✅ ROS1 node initialization found in src/pick_place_node.py
+  5. Node name: pick_and_place_node
+  6. ✅ Found 2 publisher(s) in src/pick_place_node.py
+  7. ✅ Found 1 subscriber(s) in src/pick_place_node.py
+  8. Extracted 15 files
+
+🤖 ROS ELEMENTS DETECTED:
+  • Node initialization: YES
+  • Publishers: 2
+  • Subscribers: 1
+  • Services: 0
+
+✅ VALIDATION PASSED - Ready for simulation!
+   No critical errors found. Check warnings for improvements.
+
+============================================================`;
+            
+            document.getElementById('textReport').textContent = demoReport;
+            document.getElementById('jsonReport').textContent = JSON.stringify({
+                demo: true,
+                message: "This is demo validation data",
+                statistics: {
+                    files_checked: 5,
+                    python_files: 3,
+                    cpp_files: 2
+                }
+            }, null, 2);
+            
+            // Update UI
+            document.getElementById('validationStatus').className = 'alert alert-success';
+            document.getElementById('validationStatus').innerHTML = '✅ Demo package validation passed! Ready for simulation.';
+            document.getElementById('simulateBtn').disabled = false;
+            document.getElementById('validationMessage').innerHTML = '<span style="color:#28a745;">✓ Ready to simulate</span>';
+            
+            uploadStatus.innerHTML = `
+                <div class="alert alert-success">
+                    ✅ Demo data loaded successfully!
+                </div>
+            `;
+            
+            // Set demo upload ID
+            currentUploadId = 'demo_' + Date.now();
+            currentValidationPassed = true;
+        }
+        
+        // Download report
+        function downloadReport() {
+            if (!currentUploadId) {
+                alert('No report available to download');
+                return;
+            }
+            
+            // Create a simple text report
+            const textReport = document.getElementById('textReport').textContent;
+            const blob = new Blob([textReport], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ros_report_${currentUploadId}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('Report downloaded as text file');
+        }
+        
+        // Tab switching
+        function showTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+{
+  "joint_positions": [
+    {
+      "time": 0.0,
+      "joints": [
+        0.0,
+        -1.57,
+        1.57,
+        -1.57,
+        -1.57,
+        0.0
+      ],
+      "action": "Initial Position"
+    },
+    {
+      "time": 1.5,
+      "joints": [
+        0.3,
+        -1.3,
+        1.8,
+        -1.2,
+        -1.4,
+        0.3
+      ],
+      "action": "Approaching Cube"
+    },
+    {
+      "time": 3.0,
+      "joints": [
+        0.5,
+        -1.1,
+        2.0,
+        -0.9,
+        -1.2,
+        0.5
+      ],
+      "action": "Preparing to Pick"
+    },
+    {
+      "time": 4.5,
+      "joints": [
+        0.5,
+        -1.0,
+        2.1,
+        -0.8,
+        -1.3,
+        0.5
+      ],
+      "action": "Picking Cube"
+    },
+    {
+      "time": 6.0,
+      "joints": [
+        0.7,
+        -1.2,
+        1.9,
+        -1.0,
+        -1.1,
+        0.7
+      ],
+      "action": "Lifting Cube"
+    },
+    {
+      "time": 8.0,
+      "joints": [
+        1.0,
+        -1.0,
+        1.6,
+        -0.8,
+        -0.9,
+        1.0
+      ],
+      "action": "Moving to Target"
+    },
+    {
+      "time": 10.0,
+      "joints": [
+        1.2,
+        -0.8,
+        1.4,
+        -0.6,
+        -1.0,
+        1.2
+      ],
+      "action": "Placing Cube"
+    },
+    {
+      "time": 12.0,
+      "joints": [
+        0.0,
+        -1.57,
+        1.57,
+        -1.57,
+        -1.57,
+        0.0
+      ],
+      "action": "Returning Home"
+    }
+  ],
+  "screenshots": [
+    {
+      "time": 0,
+      "file": "frame_0_initial.png",
+      "description": "Initial position - Arm at home"
+    },
+    {
+      "time": 3,
+      "file": "frame_1_approach.png",
+      "description": "Approaching the cube"
+    },
+    {
+      "time": 4.5,
+      "file": "frame_2_pick.png",
+      "description": "Picking the cube"
+    },
+    {
+      "time": 8,
+      "file": "frame_3_move.png",
+      "description": "Moving to target position"
+    },
+    {
+      "time": 10,
+      "file": "frame_4_place.png",
+      "description": "Placing cube at target"
+    }
+  ],
+  "success": true,
+  "errors": [],
+  "logs": [
+    "\ud83e\udd16 Simulation started",
+    "\ud83d\udce6 Loading UR5 robotic arm model...",
+    "\ud83d\udd04 Initializing joint controllers...",
+    "\ud83c\udfaf Setting up workspace with cube and target...",
+    "\ud83d\udccd Cube position: [0.5, 0.0, 0.1]",
+    "\ud83c\udfaf Target position: [0.8, 0.3, 0.1]",
+    "\ud83d\ude80 Starting pick-and-place sequence...",
+    "\u23f1\ufe0f Time 0.0s: Moving to initial position",
+    "\u23f1\ufe0f Time 1.5s: Approaching cube",
+    "\u23f1\ufe0f Time 3.0s: Preparing gripper",
+    "\u23f1\ufe0f Time 4.5s: Cube picked successfully",
+    "\u23f1\ufe0f Time 6.0s: Lifting cube",
+    "\u23f1\ufe0f Time 8.0s: Moving to target position",
+    "\u23f1\ufe0f Time 10.0s: Placing cube at target",
+    "\u23f1\ufe0f Time 12.0s: Returning to home position",
+    "\u2705 Task completed successfully!",
+    "\ud83d\udcca Cube successfully moved from [0.5, 0.0, 0.1] to [0.8, 0.3, 0.1]",
+    "\ud83c\udfaf Target accuracy: 0.01m (within tolerance)"
+  ],
+  "summary": {
+    "duration": "12 seconds",
+    "joint_movements": 8,
+    "screenshots": 5,
+    "success_rate": "100%",
+    "cube_moved": true,
+    "target_reached": true,
+    "max_velocity": "0.5 rad/s",
+    "max_acceleration": "0.3 rad/s\u00b2"
+  }
+}

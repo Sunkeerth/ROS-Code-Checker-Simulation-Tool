@@ -1,0 +1,28 @@
+{
+  "upload_id": "32c65fab",
+  "filename": "correct_package.zip",
+  "results": {
+    "errors": [],
+    "warnings": [],
+    "info": [
+      "Extracted 3 files",
+      "\u2705 Found package.xml at correct_package\\package.xml",
+      "  Package name: correct_package",
+      "\u2705 Found 1 CMakeLists.txt file(s)"
+    ],
+    "statistics": {
+      "files_checked": 1,
+      "python_files": 1,
+      "cpp_files": 0,
+      "ros_elements": {
+        "init_node": false,
+        "publishers": 0,
+        "subscribers": 0,
+        "services": 0
+      }
+    }
+  },
+  "text_report": "\ud83d\udccb ROS CODE CHECKER REPORT\n============================================================\n\nSUMMARY:\n  Files checked: 1\n  Python files: 1\n  C++ files: 0\n  Errors: 0\n  Warnings: 0\n  Info messages: 4\n\n\u2139\ufe0f INFO & RECOMMENDATIONS:\n  1. Extracted 3 files\n  2. \u2705 Found package.xml at correct_package\\package.xml\n  3.   Package name: correct_package\n  4. \u2705 Found 1 CMakeLists.txt file(s)\n\n\u2705 VALIDATION PASSED - Ready for simulation!\n   No critical errors found. Check warnings for improvements.\n\n============================================================\n",
+  "validation_passed": true,
+  "timestamp": 1765548714.390873
+}
