@@ -1,9 +1,9 @@
-ROS Code Checker & Simulation Preview Tool :
+#ROS Code Checker & Simulation Preview Tool :
 
 A lightweight tool that lets users upload ROS packages, check code quality, and preview a simple robotic arm simulation.
 Built for students, interns, and developers who want a fast way to test ROS nodes without installing full robot simulators.
 
-Features :
+#Features :
 
 ✅ No ROS Installation Required - Works on any system with Python 3.7+.
 ✅ Static Code Analysis - Detects common ROS coding errors and safety issues
@@ -21,15 +21,15 @@ cd ros_code_checker_tool
 python -m venv venv
 
 # 3. Activate virtual environment
-# On Windows:
+ On Windows:
 venv\Scripts\activate
-# On Linux/Mac:
+ On Linux/Mac:
 source venv/bin/activate
 
-4 . Run the Tool 
+# 4 . Run the Tool 
 python run.py --web 
 
-Architecture Diagram :
+# Architecture Diagram :
 
                 +---------------------------+
                 |        Web Interface      |
@@ -87,4 +87,5 @@ Outputs
 report.txt
 report.json
 Simulation logs + image frames
+
 
