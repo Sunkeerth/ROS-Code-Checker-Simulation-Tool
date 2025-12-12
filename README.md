@@ -1,178 +1,88 @@
-ROS Code Checker & Simulation Preview Tool
-
-A simple and interactive tool that allows users to upload ROS code, check for errors, and preview a robotic arm simulation.
-Built for students, interns, and developers who want a fast and easy way to test ROS packages without setting up a full robot environment.
-
-⭐ What This Tool Does
-1. ROS Code Checking
-
-When you upload a ZIP file, the tool checks:
-
-Python/C++ syntax
-
-ROS package structure (package.xml, CMakeLists.txt)
-
-Whether the ROS node contains:
-
-init_node()
-
-Publishers
-
-Subscribers
-
-Services
-
-Safety issues:
-
-Unsafe joint values
-
-Infinite loops
-
-Missing sleep in loops
-
-Dangerous values
-
-2. Simulation Preview
-
-If the uploaded ROS package passes validation:
-
-A simple mock pick-and-place simulation runs
-
-The simulation shows:
-
-Movement steps
-
-Joint changes
-
-Logs
-
-Captured frame images of each stage
-
-3. Report Generation
-
-The tool generates:
-
-A Text Report
-
-A JSON Report
-
-These reports summarize:
-
-Errors
-
-Warnings
-
-Node details
-
-Safety violations
-
-Simulation results
-
-🎯 Why This Project Exists
-
-This tool is inspired by real robotics workflows used in internships and research labs.
-It helps developers quickly:
-
-Verify ROS code
-
-Test robot motion
-
-Debug safety issues
-
-Visualize behavior
-
-Avoid full simulator setup (Gazebo/CoppeliaSim)
-
-Perfect for beginners learning ROS or for assignments that require code analysis + simple simulation.
-
-🚀 How to Run the Project
-1. Install Requirements
-pip install -r requirements.txt
-
-2. Start the Web Server
-python run.py --web
-
-3. Open the Application
-
-Go to:
-
-http://localhost:5000
-
-4. Upload ROS Packages
-
-Use:
-
-correct_package.zip — should pass
-
-faulty_package.zip — should fail
-Or upload your own ROS project ZIP.
-
-📌 Simple Workflow
-
-Upload ROS package (ZIP file)
-
-Code checker analyzes structure, syntax, safety
-
-If no critical errors → simulation begins
-
-User sees:
-
-Logs
-
-Motion steps
-
-Captured frames
-
-Reports are generated for download
-
-This gives a full end-to-end experience like a real robotics pipeline.
-
-📂 Project Structure
-backend/             → Code checker & simulation logic
-web/                 → Flask UI (HTML, CSS, JS)
-tests/               → Sample ROS packages
-run.py               → Starts the application
-requirements.txt     → Python dependencies
-
-🧪 Test Packages Included
-✔ correct_package.zip
-
-A clean ROS package that passes all checks and runs simulation.
-
-❌ faulty_package.zip
-
-A broken ROS package with:
-
-Missing node initialization
-
-Infinite loops
-
-Wrong sleep usage
-
-Safety issues
-
-Structural errors
-
-Use these to test your tool easily.
-
-📸 Add Screenshots Here (Optional)
-
-You can place your UI images here, like:
-
-Upload page
-
-Report page
-
-Simulation frames
-
-This makes your repo look more attractive.
-
-🌱 Future Improvements
-
-Real Gazebo/CoppeliaSim support
-
-ROS2 version
-
-Live graph plotting (joint angles, velocities)
-
-3D model visualization
+ROS Code Checker & Simulation Preview Tool :
+
+A lightweight tool that lets users upload ROS packages, check code quality, and preview a simple robotic arm simulation.
+Built for students, interns, and developers who want a fast way to test ROS nodes without installing full robot simulators.
+
+Features
+✅ No ROS Installation Required - Works on any system with Python 3.7+
+✅ Static Code Analysis - Detects common ROS coding errors and safety issues
+✅ Style Validation - Checks against ROS C++ and Python style guides
+✅ Safety Checks - Identifies unsafe practices like unvalidated joint limits
+✅ Web Interface - User-friendly GUI for easy code analysis
+✅ Batch Processing - Analyze entire ROS packages or single files
+
+Installation
+bash
+# 1. Clone the repository
+cd ros_code_checker_tool
+
+# 2. Create virtual environment (recommended)
+python -m venv venv
+
+# 3. Activate virtual environment
+# On Windows:
+venv\Scripts\activate
+# On Linux/Mac:
+source venv/bin/activate
+
+4 . Run the Tool 
+python run.py --web 
+
+Architecture Diagram :
+
+                +---------------------------+
+                |        Web Interface      |
+                |       (Flask / HTML)      |
+                +--------------+------------+
+                               |
+                               | Upload ZIP
+                               v
+                +---------------------------+
+                |         Backend API       |
+                |         (run.py)          |
+                +--------------+------------+
+                               |
+                               v
+        +------------------------------------------------+
+        |                  Code Checker                  |
+        |------------------------------------------------|
+        | Syntax Check | Structure Check | Safety Rules  |
+        | flake8/g++   | pkg.xml, CMake  | joint limits  |
+        +------+-------+---------+-------+----------------+
+               |                 |
+               | Valid           | Errors/Warnings
+               v                 v
+     +------------------+      +----------------------+
+     | Simulation Runner|      |    Report Generator  |
+     |   (Mock UR5)     |      |   TXT + JSON Output  |
+     +--------+---------+      +----------+-----------+
+              |                           |
+              | Frames + Logs             | Reports
+              v                           v
+     +-----------------------+    +--------------------------+
+     |  Simulation Preview   |    |  report.txt / report.json|
+     +-----------------------+    +--------------------------+
+
+Test Packages Included  :
+
+✔ correct_package
+
+This package:
+Has proper init_node
+Contains safe joint values
+Publishes valid motion commands
+Successfully completes the mock simulation
+
+❌ faulty_package
+
+This package demonstrates:
+Missing init_node
+Infinite loop without sleep
+Incorrect ROS file structure
+Unsafe joint values 
+
+Outputs
+
+report.txt
+report.json
+Simulation logs + image frames
