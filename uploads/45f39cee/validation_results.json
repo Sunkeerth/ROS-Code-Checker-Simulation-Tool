@@ -1,0 +1,54 @@
+{
+  "upload_id": "45f39cee",
+  "filename": "faulty_package.zip",
+  "results": {
+    "errors": [
+      "\u274c No ROS package.xml found",
+      "\u274c No ROS package.xml found"
+    ],
+    "warnings": [
+      "\u26a0\ufe0f Style issue in src\\pick_place_node.py: C:\\Users\\DELL\\AppData\\Local\\Temp\\tmphm21208h\\src\\pick_place_node.py:5:5: E704 multiple statements on one line (def)",
+      "\u26a0\ufe0f Style issue in src\\pick_place_node.py: C:\\Users\\DELL\\AppData\\Local\\Temp\\tmphm21208h\\src\\pick_place_node.py:7:5: E704 multiple statements on one line (def)",
+      "\u26a0\ufe0f Style issue in src\\pick_place_node.py: C:\\Users\\DELL\\AppData\\Local\\Temp\\tmp9chkjbfu\\src\\pick_place_node.py:5:5: E704 multiple statements on one line (def)",
+      "\u26a0\ufe0f Style issue in src\\pick_place_node.py: C:\\Users\\DELL\\AppData\\Local\\Temp\\tmp9chkjbfu\\src\\pick_place_node.py:7:5: E704 multiple statements on one line (def)",
+      "\u26a0\ufe0f No build configuration (CMakeLists.txt or setup.py) found",
+      "\u26a0\ufe0f Style issue in src\\unsafe_node.py: C:\\Users\\DELL\\AppData\\Local\\Temp\\tmpz7s7vf4h\\src\\unsafe_node.py:10:10: E226 missing whitespace around arithmetic operator",
+      "\u26a0\ufe0f Use rospy.sleep() instead of time.sleep() in src\\unsafe_node.py",
+      "\u26a0\ufe0f Potential infinite loop in src\\unsafe_node.py",
+      "\u26a0\ufe0f No build configuration (CMakeLists.txt or setup.py) found",
+      "\u26a0\ufe0f Style issue in src\\unsafe_node.py: C:\\Users\\DELL\\AppData\\Local\\Temp\\tmp11calfr2\\src\\unsafe_node.py:10:10: E226 missing whitespace around arithmetic operator",
+      "\u26a0\ufe0f Use rospy.sleep() instead of time.sleep() in src\\unsafe_node.py",
+      "\u26a0\ufe0f Potential infinite loop in src\\unsafe_node.py"
+    ],
+    "info": [
+      "Extracted 3 files",
+      "\u2705 Found package.xml at package.xml",
+      "  Package name: correct_package",
+      "\u2705 Found 1 CMakeLists.txt file(s)",
+      "\u2705 ROS1 node initialization found in src\\pick_place_node.py",
+      "  Node name: )\n    rospy.loginfo(",
+      "Extracted 3 files",
+      "\u2705 Found package.xml at package.xml",
+      "  Package name: correct_package",
+      "\u2705 Found 1 CMakeLists.txt file(s)",
+      "\u2705 ROS1 node initialization found in src\\pick_place_node.py",
+      "  Node name: )\n    rospy.loginfo(",
+      "Extracted 1 files",
+      "Extracted 1 files"
+    ],
+    "statistics": {
+      "files_checked": 4,
+      "python_files": 1,
+      "cpp_files": 0,
+      "ros_elements": {
+        "init_node": true,
+        "publishers": 0,
+        "subscribers": 0,
+        "services": 0
+      }
+    }
+  },
+  "text_report": "\ud83d\udccb ROS CODE CHECKER REPORT\n============================================================\n\nSUMMARY:\n  Files checked: 4\n  Python files: 1\n  C++ files: 0\n  Errors: 2\n  Warnings: 12\n  Info messages: 14\n\n\u274c ERRORS:\n  1. \u274c No ROS package.xml found\n  2. \u274c No ROS package.xml found\n\n\u26a0\ufe0f WARNINGS:\n  1. \u26a0\ufe0f Style issue in src\\pick_place_node.py: C:\\Users\\DELL\\AppData\\Local\\Temp\\tmphm21208h\\src\\pick_place_node.py:5:5: E704 multiple statements on one line (def)\n  2. \u26a0\ufe0f Style issue in src\\pick_place_node.py: C:\\Users\\DELL\\AppData\\Local\\Temp\\tmphm21208h\\src\\pick_place_node.py:7:5: E704 multiple statements on one line (def)\n  3. \u26a0\ufe0f Style issue in src\\pick_place_node.py: C:\\Users\\DELL\\AppData\\Local\\Temp\\tmp9chkjbfu\\src\\pick_place_node.py:5:5: E704 multiple statements on one line (def)\n  4. \u26a0\ufe0f Style issue in src\\pick_place_node.py: C:\\Users\\DELL\\AppData\\Local\\Temp\\tmp9chkjbfu\\src\\pick_place_node.py:7:5: E704 multiple statements on one line (def)\n  5. \u26a0\ufe0f No build configuration (CMakeLists.txt or setup.py) found\n  ... and 7 more warnings\n\n\u2139\ufe0f INFO & RECOMMENDATIONS:\n  1. Extracted 3 files\n  2. \u2705 Found package.xml at package.xml\n  3.   Package name: correct_package\n  4. \u2705 Found 1 CMakeLists.txt file(s)\n  5. \u2705 ROS1 node initialization found in src\\pick_place_node.py\n  6.   Node name: )\n    rospy.loginfo(\n  7. Extracted 3 files\n  8. \u2705 Found package.xml at package.xml\n  9.   Package name: correct_package\n  10. \u2705 Found 1 CMakeLists.txt file(s)\n  ... and 4 more info messages\n\n\ud83e\udd16 ROS ELEMENTS DETECTED:\n  \u2022 Node initialization: YES\n\n\u274c VALIDATION FAILED\n   Found 2 critical error(s). Fix before simulation.\n\n============================================================\n",
+  "validation_passed": false,
+  "timestamp": 1765643164.592332
+}
