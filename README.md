@@ -10,8 +10,28 @@ A lightweight web-based tool that allows users to upload ROS (Robot Operating Sy
 [▶ Click here to watch the demo video](your_demo_video_link_here)
 
 ### Screenshots  
-![Web Interface Screenshot](your_image_link_here)
-![Simulation Preview Screenshot](your_image_link_here)
+
+#### Web Interface – Upload & Validation
+![Web Interface Screenshot](images/image01.jpg)
+
+#### Faulty Package – Validation Errors
+![Faulty Package Validation](images/faulty_image01.jpg)
+
+#### Correct Package – Validation Passed
+![Correct Package Validation](images/image03.jpg)
+
+#### Simulation Preview – Pick and Place
+![Simulation Preview Screenshot](images/image04.jpg)
+
+#### Simulation Logs & Joint Movements
+![Simulation Logs](images/image05.jpg)
+
+#### Captured Simulation Frames
+![Simulation Frames](images/image06.jpg)
+
+#### Report Download
+![Report Download Screenshot](images/image07.jpg)
+
 
 ---
 
@@ -179,4 +199,5 @@ ros_code_checker_tool/
 
 Developed by **Sunkeerth**  
 *ROS Tools • Robotics Simulation • AI/ML Engineering*
+
 
